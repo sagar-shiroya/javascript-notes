@@ -35,6 +35,8 @@ console.log(z);  // value of z is entire code of function y.
 ## setTimeout Function in JavaScript
 
 > Time, Tide & JavaScript wait for none.
+By [Akshay Saini](https://github.com/akshaymarch7)
+
 * Below is the example of setTimeout function:
 ```javascript
 function x() {
