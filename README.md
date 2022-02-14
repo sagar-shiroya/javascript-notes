@@ -2,6 +2,8 @@
 * [What is Closure in JavaScript?](#what-is-closure-in-javascript)
 * [setTimeout Function in JavaScript](#settimeout-function-in-javascript)
 
+__All answers are inspired by Akshay Saini's Namaste JavaScript Series__
+
 ## What is Closure in JavaScript?
 
 * Function bundled along with it's lexical scope is Closure.
