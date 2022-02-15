@@ -115,7 +115,7 @@ Each time loops runs, it calls the function timer() and pass different value. So
 
 ## Different Types of Functions and Terminologies
  
-### Function Statemet or Function Declaration
+### Function Statement or Function Declaration
 Below way of writing function is called function statement:
 ```javascript
 function x() {
@@ -188,13 +188,12 @@ a(); //test2
 ```
 __Note: We can't call function by `xyz()`__
 ### Parameters v. Arguments
-**Paramters:** It's labels or identifiers used when defining function.
+**Parameters:** It's labels or identifiers used when defining function. <br>
 **Arguments:** When we call function and we pass the value into function. Those values called arguments.
 ```js
 function a(param1, param2){
     console.log(param1, param2);
 }
-
 a(7,8);
 ```
 In above example, param1 & param2 is parameters. While 7 & 8 is referred as arguments.
