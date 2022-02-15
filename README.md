@@ -1,6 +1,7 @@
 # Javascript Notes
 * [What is Closure in JavaScript?](#what-is-closure-in-javascript)
 * [setTimeout Function in JavaScript](#settimeout-function-in-javascript)
+* [Different Types of Functions and Terminologies](#different-types-of-functions-and-terminologies)
 
 __All answers are inspired by Akshay Saini's Namaste JavaScript Series__
 
@@ -98,7 +99,7 @@ As `let` variable has __block scope__, so it will take seperate memory location 
 #### Solution using closure:
 ```javascript
 function x(){
-  for(let i = 1; i<=5 ; i++){
+  for(var i = 1; i<=5 ; i++){
     function timer(a){
       setTimeout(
         function(){console.log(a)}, 
@@ -111,3 +112,89 @@ function x(){
 x();
 ```
 Each time loops runs, it calls the function timer() and pass different value. So each function iteration has seperate value and memory pointer pointing to it.
+
+## Different Types of Functions and Terminologies
+ 
+### Function Statemet or Function Declaration
+Below way of writing function is called function statement:
+```javascript
+function x() {
+    console.log('test');
+}
+x(); //test
+```
+### Function Expression
+Below way of writing a function  is called function expression:
+```javascript
+var a = function() {
+    console.log('test2');
+}
+a(); //test2
+```
+### Difference between Function Statement & Expression
+Key difference between function statement and expression is the hoisting only. We can't call function before definining in  case of expression, while we can call function before defining in function statement.
+```javascript
+a(); //function a
+b(); //Uncaught TypeError: b is not a function 
+function a() {console.log('function a');} //Function Statement
+var b = function() {console.log('function b');} //Function Expression
+```
+Note: In case of function expression, b is only placeholder in the memory location and value is undefined. So once execution context comes to the line where it defined then only b's value set as function. Before that we can't call the function same as we can call in function statement.
+### Anonymous Functions
+Anonymous function is a function without the name. We can't use it in below way.
+```js
+function() { 
+    //...
+}
+```
+* This results into an error as `Uncaught SyntaxError: Function statements require a function name`.
+* We can use anonymous function as value.
+* We can assign it to variable(as we did in function expression), pass it to a function arguments etc.
+**Examples:**
+```js
+//Example 1
+var anonym = function() { //... }
+
+//Example 2
+function a(func){
+    console.log(func);
+}
+a(function(){console.log('this is function b');}); //prints "ƒ (){console.log('this is function b');}"
+```
+### First Class Functions or First Class Citizens
+We can pass function as arguments into another function and also we can return the function as a value from function. This ability of passing and returning a function is called First Class Function. This is also available in other programming languages.
+```js
+// passing the function as arguments
+var b = function(param1) {
+  console.log(param1); // prints " f() {} "
+}
+b(function(){});
+
+//returning the function as value
+var b = function(param1) {
+  return function() {
+  }  
+}
+console.log(b()); // prints "ƒ () { }"
+```
+This is also called first class citizens.
+### Named Function Expression
+Named function expression is same as function expression, but this function has a name instead of being anonymous.
+```js
+var a = function xyz() {
+    console.log('test2');
+}
+a(); //test2
+```
+__Note: We can't call function by `xyz()`__
+### Parameters v. Arguments
+**Paramters:** It's labels or identifiers used when defining function.
+**Arguments:** When we call function and we pass the value into function. Those values called arguments.
+```js
+function a(param1, param2){
+    console.log(param1, param2);
+}
+
+a(7,8);
+```
+In above example, param1 & param2 is parameters. While 7 & 8 is referred as arguments.
