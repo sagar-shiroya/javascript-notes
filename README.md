@@ -2,6 +2,7 @@
 * [What is Closure in JavaScript?](#what-is-closure-in-javascript)
 * [setTimeout Function in JavaScript](#settimeout-function-in-javascript)
 * [Different Types of Functions and Terminologies](#different-types-of-functions-and-terminologies)
+* [Callback Functions in JavaScript](#callback-functions-in-javascript)
 
 __All answers are inspired by Akshay Saini's Namaste JavaScript Series__
 
@@ -177,8 +178,8 @@ var b = function(param1) {
 }
 console.log(b()); // prints "ƒ () { }"
 ```
-This is also called first class citizens.
-### Named Function Expression
+This is also called first class citizens. 
+### Named Function Expression 
 Named function expression is same as function expression, but this function has a name instead of being anonymous.
 ```js
 var a = function xyz() {
@@ -197,3 +198,57 @@ function a(param1, param2){
 a(7,8);
 ```
 In above example, param1 & param2 is parameters. While 7 & 8 is referred as arguments.
+
+## Callback Functions in JavaScript
+* **Callback Function** is a function passed as argument to another function. It's called callback function because it will get called sometime later during execution.
+* For e.g. setTimeout() has first argument as callback function and that callback function will get called once timer got expired which passed as second argument.
+* Once javascript execution completed, callstack gets empty. But if there's still setTimout()'s timer is running then once timer gets expired then callback function will be added to callstack after that timeout time period.
+```js
+setTimeout(function(){
+    console.log('after 3 seconds');
+}, 3000);
+```
+
+### Javascript is a synchronous and single-threaded language
+* Synchronous: Javascript executes all the statements one by one.
+* Single threaded language: It means that JavaScript has only single callstack which is used to execute the program. Everything in javascript executed, will be executed from this one call stack only.
+
+### Blocking the main thread
+* If there is any function in your code which does very heavy operation (and e.g. if it takes 30 seconds to complete the execution of whole function). During this time, JS won't be able to execute any other of code as there's only one call stack. This event is called blocking the main thread. 
+* As there's only one call stack, so we should never block our main thread. We should always try to use async operations for things which takes time.(e.g. setTimeout)
+
+## Event Listeners in JavaScript
+* We will create a button in html and attach event to it.
+```js
+// index.html
+<button id="clickMe">Click Me!</button>
+
+// index.js
+document.getElementById("clickMe").addEventListener("click", function xyz(){ //when event click occurs, this callback function (xyz) is called into callstack
+      console.log("Button clicked");
+});
+```
+* Let's implement counter which will take care of how many times the button has clicked. Using global variable (This is not good practice as anyone can change `count` variable)
+```js
+let count = 0;
+document.getElementById("clickMe").addEventListener("click", function xyz(){ 
+    console.log("Button clicked", ++count);
+});
+```
+* Use closures for Data Abstraction
+```js
+function attachEventListener() {
+    let count = 0;
+    document.getElementById("clickMe").addEventListener("click", function xyz(){ 
+        console.log("Button clicked", ++count);
+    });
+}
+attachEventListener();
+```
+* In Second example, once execution of javascript gets finished. Event Listener has been added in your browser with the closures. It has lexical scope and count variable as well. Once someone click on the button, that count value gets increased by one.
+
+### Garbage Collection and Remove Event Listeners
+* Event listeners are heavy as they form the closures and store everything around it in the browser. Because event can be triggered anytime even after the JS execution gets completed for given script.
+* So even when call stack is empty, EventListener won't free up memory allocated to count as it doesn't know when it may need count again.
+* We should remove event listeners when we don't need them (garbage collected). onClick, onHover, onScroll all in a page can slow it down heavily.
+
