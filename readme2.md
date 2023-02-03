@@ -10,6 +10,10 @@
 * [What is Scope Chain?](#scope-chain)
 * [What is Closure?](#closure)
 * [Write a counter program using closure](#counter-program-using-closure)
+* [What is a Block Scope?](#block-scope)
+* [What is Temporal DeadZone?](#temporal-deadzone)
+* [What is the differene between var and let?](#difference-between-var-and-let-keywords)
+* [Best Practice: let/const or var?](#best-practice-letconst-or-var)
 
 
 ## Execution Context
@@ -221,3 +225,62 @@ console.log(counter1()); // 4
 
 - In this example, the **`createCounter`** function returns a new function each time it's called. This new function has access to the **`count`** variable from the **`createCounter`** function, but the **`count`** variable is different for each instance of the returned function.
 - When we call **`counter1()`**, it increments and returns the **`count`** variable for that instance of the function. When we call **`counter2()`**, it increments and returns a different **`count`** variable for that instance of the function.
+
+
+## Block Scope
+
+- Block scope in JavaScript refers to the scope of a variable that is defined within a block of code, such as within a loop or an if statement. In JavaScript, variables declared with the **`let`** or **`const`** keywords have block scope, meaning that their scope is limited to the block in which they are declared and any nested blocks.
+
+```jsx
+if (true) {
+  let x = 10;
+  console.log(x); // 10
+}
+console.log(x); // ReferenceError: x is not defined
+```
+
+- In this code, the variable **`x`** is declared within the block of the if statement, and its scope is limited to that block. When the **`console.log`** statement outside of the if block attempts to access **`x`**, a **`ReferenceError`** is thrown, because **`x`** is not accessible in the outer scope.
+- In contrast, variables declared with the **`var`** keyword in JavaScript have function scope, meaning that their scope is limited to the function in which they are declared, but they are accessible throughout the function, including within any nested blocks.
+
+```jsx
+if (true) {
+  var x = 10;
+  console.log(x); // 10
+}
+console.log(x); // 10
+```
+
+## Temporal DeadZone
+
+- The temporal dead zone (TDZ) in JavaScript is a period of time in which a variable declared with the **`let`** or **`const`** keywords is in a "limbo" state, and is not accessible or assignable until the declaration has been fully processed.
+
+```jsx
+console.log(x);  // ReferenceError: x is not defined
+let x = 10;
+```
+
+- In this code, the variable **`x`** is declared with **`let`**. The **`console.log`** statement attempting to access **`x`** is executed before the declaration of **`x`** has been processed, and thus it triggers a **`ReferenceError`**. This period of time between the start of the code and the declaration of **`x`** is called the **temporal dead zone**.
+- The TDZ helps to ensure that variables declared with **`let`** or **`const`** are only accessible in the code after they have been properly declared and initialized, and not before.
+
+## Difference between `var` and `let` keywords
+
+1. Scope
+    - Variables declared with **`var`** have function scope, meaning that their scope is limited to the function in which they are declared.
+    - Variables declared with **`let`** have block scope, meaning that their scope is limited to the block in which they are declared and any nested blocks.
+2. Hoisting
+    - Variables declared with **`var`** are hoisted, meaning that they are moved to the top of their scope and are accessible throughout the scope, including before their declaration.
+    - Variables declared with `let` are also hoisted, but they are in temporal deadzone. So can’t access them before declared/initialised it.
+3. Redeclaration
+    - Variables declared with **`var`** can be redeclared within the same scope, even if they have already been declared.
+    - Variables declared with **`let`** cannot be redeclared within the same scope.
+4. Temporal DeadZone
+    - Variables declared with **`let`** or **`const`** are subject to the temporal dead zone (TDZ), a period of time in which they are in a "limbo" state and are not accessible or assignable until their declaration has been fully processed.
+    - Variables declared with **`var`** are not subject to the TDZ.
+
+## Best Practice: let/const or var?
+
+- The current best practice in JavaScript is to use **`let`** instead of **`var`** when declaring variables.
+- **`let`** has block scope, meaning that its scope is limited to the block in which it is declared and any nested blocks. This provides a more predictable and flexible way of managing variables and their scopes, compared to **`var`**, which has function scope and can lead to unintended behavior in certain cases.
+- **`let`** also has other advantages over **`var`**, such as not being hoisted, not allowing redeclaration within the same scope, and being subject to the temporal dead zone, which can help prevent unintended behavior and improve code readability.
+- Using **`const`** is also a good practice when declaring variables that will not change, as it provides an added layer of protection against accidental modification.
+- So in summary, using **`let`** and **`const`** is currently considered the best practice in JavaScript, while using **`var`** is discouraged.
